@@ -9,7 +9,7 @@ const GOOGLE_CLIENT_SECRET = AUTH_CLIENT_SECRET;
 const oAuth2Client = new google.auth.OAuth2(
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  "http://localhost:8000"
+  "https://calendar-integrator.onrender.com"
 );
 
 const calendar = google.calendar({
@@ -39,16 +39,16 @@ const redirect = async (req, res, next) => {
     const { code } = req.query;
     oAuth2Client.getToken(code, (err, tokens) => {
       if (err) {
-        res.redirect(`http://localhost:3000`);
+        res.redirect(`https://google-calendar-integration-frontend.vercel.app`);
         return;
       }
 
       const refreshToken = tokens?.refresh_token;
-      const frontendURL = `http://localhost:3000?refreshToken=${refreshToken}`;
+      const frontendURL = `https://google-calendar-integration-frontend.vercel.app?refreshToken=${refreshToken}`;
       res.redirect(frontendURL);
     });
   } catch (error) {
-    res.redirect(`http://localhost:3000`);
+    res.redirect(`https://google-calendar-integration-frontend.vercel.app`);
   }
 };
 

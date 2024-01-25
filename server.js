@@ -35,5 +35,5 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/googleCalendar'));
 
 app.listen(port);
-
+console.log(process.cwd());
 console.log(`Server listening on port ${port}`);
