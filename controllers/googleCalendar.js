@@ -1,15 +1,17 @@
 const { google } = require("googleapis");
 
-const AUTH_CLIENT_ID = `87279394821-c56eps4mlkht0spar61lf1qo6kmjpkck.apps.googleusercontent.com`;
-const AUTH_CLIENT_SECRET = `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`;
+const AUTH_CLIENT_ID = process.env.AUTH_CLIENT_ID;
+const AUTH_CLIENT_SECRET = process.env.AUTH_CLIENT_SECRET;
 
 const GOOGLE_CLIENT_ID = AUTH_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = AUTH_CLIENT_SECRET;
+const Base_url = process.env.REACT_BASE_URL;
+const serviceURL = process.env.SERVICE_URL;
 
 const oAuth2Client = new google.auth.OAuth2(
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  "https://calendar-integrator.onrender.com"
+  serviceURL
 );
 
 const calendar = google.calendar({
@@ -39,16 +41,16 @@ const redirect = async (req, res, next) => {
     const { code } = req.query;
     oAuth2Client.getToken(code, (err, tokens) => {
       if (err) {
-        res.redirect(`https://google-calendar-integration-frontend.vercel.app`);
+        res.redirect(`${Base_url}`);
         return;
       }
 
       const refreshToken = tokens?.refresh_token;
-      const frontendURL = `https://google-calendar-integration-frontend.vercel.app?refreshToken=${refreshToken}`;
+      const frontendURL = `${Base_url}?refreshToken=${refreshToken}`;
       res.redirect(frontendURL);
     });
   } catch (error) {
-    res.redirect(`https://google-calendar-integration-frontend.vercel.app`);
+    res.redirect(`${Base_url}`);
   }
 };
 

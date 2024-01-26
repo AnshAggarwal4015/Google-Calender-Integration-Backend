@@ -3,7 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 8000;
+require('dotenv').config();
+const port =  process.env.PORT || 4000;
 
 app.use(express.json());
 
@@ -35,5 +36,4 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/googleCalendar'));
 
 app.listen(port);
-console.log(process.cwd());
 console.log(`Server listening on port ${port}`);
